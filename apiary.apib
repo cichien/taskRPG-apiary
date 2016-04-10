@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://52.192.215.150:8080
+HOST: http://taskrpgapi.mattc.tw
 
 # TaskRPG
 
@@ -103,27 +103,27 @@ yyyy-MM-ddTHH:mm:ssZ
 
         [
             {
-                "id": 1,
-                "title": "",
-                "creator": {
-                    "id": 1,
-                    "name": "Matt Chang",
-                    "image_url": "http://xxx.xxx.xxx"
-                },
+                "_id": "57092fb47dd83921571457c5",
+                "title": "PY first task",
                 "type": 0,
-                "desc": "xxxxxxxxxxxxxxx",
-                "creat_at": "2016-01-01T23:59:59Z", 
-                "update_at": "2016-01-01T23:59:59Z",
+                "desc": "To get task RPG done. 123123",
                 "status": 0,
+                "award": 0,
+                "userId": "5706615f5349604a208cd254",
+                "__v": 0,
                 "subtask": [
-                    1,
-                    2,
-                    4,
-                    6
+                  {
+                    "title": "Login API",
+                    "_id": "57092fb47dd83921571457c7"
+                  },
+                  {
+                    "title": "Tasks API",
+                    "_id": "57092fb47dd83921571457c6"
+                  }
                 ],
-                "award": {
-                    "id": 1,
-                    "title": "Award_1",
+                "creator": {
+                  "id": "5706615f5349604a208cd254",
+                  "name": "PY Chiu"
                 }
             }
         ]
@@ -133,19 +133,16 @@ yyyy-MM-ddTHH:mm:ssZ
 + Request (application/json)
 
         {
-            "title": "xxx",
-            "desc": "xxxxxx",
-            "type": 1,
+            "title": "PY first task",
+            "desc": "To get task RPG done. 123123",
             "subtask": [
-                    1,
-                    2,
-                    4,
-                    6
-            ],
-            "award": {
-                "id": 1,
-                "title": "Award_1",
-            }
+                {
+                    "title": "Login API"
+                },
+                {
+                    "title": "Tasks API"
+                }
+            ]
         }
 
 + Response 201 (application/json)
@@ -157,7 +154,28 @@ yyyy-MM-ddTHH:mm:ssZ
     + Body
 
             {
-              
+                "__v": 0,
+                "title": "PY first task",
+                  "type": 0,
+                  "desc": "To get task RPG done. 123123",
+                  "status": 0,
+                  "award": 0,
+                  "userId": "5706615f5349604a208cd254",
+                  "_id": "570930507dd83921571457c8",
+                  "subtask": [
+                    {
+                      "title": "Login API",
+                      "_id": "570930507dd83921571457ca"
+                    },
+                    {
+                      "title": "Tasks API",
+                      "_id": "570930507dd83921571457c9"
+                    }
+                  ],
+                  "creator": {
+                    "id": "5706615f5349604a208cd254",
+                    "name": "PY Chiu"
+                  }
             }
 
 ## Tasks Collection [/tasks/1]
@@ -167,46 +185,43 @@ yyyy-MM-ddTHH:mm:ssZ
 + Request (application/json)
 
         {
-            "title": "xxx",
-            "desc": "xxxxxx",
-            "type": 1,
+            "title": "PY first task",
+            "desc": "To get task RPG done. lalala",
             "subtask": [
-                    1,
-                    2,
-                    4,
-                    6
-            ],
-            "award": {
-                "id": 1,
-                "title": "Award_1",
-            }
+                {
+                    "title": "Login API"
+                },
+                {
+                    "title": "Tasks API"
+                }
+            ]
         }
 
 + Response 200 (application/json)
 
         {
-            "id": 1,
-            "title": "",
-            "creator": {
-                "id": 1,
-                "name": "Matt Chang",
-                "image_url": "http://xxx.xxx.xxx"
+          "_id": "57092fb47dd83921571457c5",
+          "title": "PY first task",
+          "type": 0,
+          "desc": "To get task RPG done. lalala",
+          "status": 0,
+          "award": 0,
+          "userId": "5706615f5349604a208cd254",
+          "__v": 0,
+          "subtask": [
+            {
+              "title": "Login API",
+              "_id": "570930f87dd83921571457cc"
             },
-            "type": 0,
-            "desc": "xxxxxxxxxxxxxxx",
-            "creat_at": "2016-01-01T23:59:59Z", 
-            "update_at": "2016-01-01T23:59:59Z",
-            "status": 0,
-            "subtask": [
-                1,
-                2,
-                4,
-                6
-            ],
-            "award": {
-                "id": 1,
-                "title": "Award_1",
+            {
+              "title": "Tasks API",
+              "_id": "570930f87dd83921571457cb"
             }
+          ],
+          "creator": {
+            "id": "5706615f5349604a208cd254",
+            "name": "PY Chiu"
+          }
         }
         
 ### Delete Task [DELETE]

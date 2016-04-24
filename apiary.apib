@@ -5,68 +5,8 @@ HOST: http://taskrpgapi.mattc.tw
 
 This TaskRPG private APIs.
 
-#Const
-## Task Type
->
-0
->
-1 
->
-2 
->
-3 
->
-4 
-
-## Task Status
->
-0 available
->
-1 finished
->
-2 accept
->
-3 doing
->
-4 abandon
-
-##Error States
->
-0
->
-1 
->
-2 
->
-3 
->
-4
-
-##Response Code
->
-200 ok
->
-201 Created
->
-202 Accepted
->
-204 No-Content
->
-301 ???
->
-400 Bad Request
->
-401 Unauthorized
->
-403 Forbidden
->
-404 Not Found
->
-500 Internal Server Error
->
-502 Bad Gateway
->
-503 Service Unavailable
+## Document
+http://taskrpgdoc.mattc.tw/hou_duan_jia_gou.html
 
 ## Time format ISO 8601
 yyyy-MM-ddTHH:mm:ssZ
@@ -77,27 +17,28 @@ yyyy-MM-ddTHH:mm:ssZ
 
 + Request (application/x-www-form-urlencoded)
 
-        { 
-            "grant_type": "password",
-            "username": "855726924439531",
-            "password": "<FB_ACCESS_TOKEN>"
-        }
+        grant_type=password&username=855726924439531&password=CAAK8nzNJaP4BAA1S5DdqGkhifVdX7ZCr9lV3l95b9XG2n6QPsYRZCV6v4PZAZCTKjj0yjHaf5sDbBDK8YKf3iMryvL8wpPbZCH369aWkr365r4KLnZB057Ucs7z4bAycrZAMFAgk6bJOiKAMk5epYbafxozuWe3CuWAKnGr6JV0xEmX3qhFZB6jwMTZCZBezj3chzzS5j1ZB8ZADZB0pY12pre4T7&client_id=s6BhdRkqt3&client_secret=gX1fBat3bV
         
 + Response 200 (application/json)
 
         {
           "token_type": "bearer",
-          "access_token": "1369edf055794acd6843752dc48892141922ace2",
+          "access_token": "a4511c5b8f74d3a2f7f2739b495b95ad60a3006c",
           "expires_in": 3600
         }
-## Tasks Collection [/api/tasks?index=0&size=20&count=false]
+## Tasks Collection [/api/tasks{?offset,limit,query}]
 
 ### List All Tasks [GET]
 
 + Request
     + Headers
     
-            Authorization: Bearer <$TASKRPG_ACCESS_TOKEN>
+            Authorization: Bearer a4511c5b8f74d3a2f7f2739b495b95ad60a3006c
+
++ Parameters
+    + offset: `0` (optional, number) - the skipped number
+    + limit: `10` (optional, number) - the max number of queried tasks
+    + query: `123` (optional, string) - the string used to seach task
 
 + Response 200 (application/json; charset=utf-8)
 
@@ -130,6 +71,11 @@ yyyy-MM-ddTHH:mm:ssZ
 
 ### Create a New Task [POST]
 
++ Request
+    + Headers
+    
+            Authorization: Bearer a4511c5b8f74d3a2f7f2739b495b95ad60a3006c
+
 + Request (application/json)
 
         {
@@ -137,19 +83,142 @@ yyyy-MM-ddTHH:mm:ssZ
             "desc": "To get task RPG done. 123123",
             "subtask": [
                 {
-                    "title": "Login API"
+                    "title": "Login API",
+                    "desc": "desc"
                 },
                 {
-                    "title": "Tasks API"
+                    "title": "Tasks API",
+                    "desc": "desc"
                 }
             ]
         }
 
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "status": "success",
+              "data": [
+                {
+                  "_id": "571c868e0d5708ec267e120e",
+                  "title": "PY first task",
+                  "desc": "To get task RPG done. 123123",
+                  "creator": {
+                    "_id": "5706615f5349604a208cd254",
+                    "email": "may1292001@hotmail.com",
+                    "name": "邱培雅"
+                  },
+                  "__v": 0,
+                  "create_time": "2016-04-24T08:40:46.095Z",
+                  "award": 0,
+                  "check_type": 0,
+                  "time_length": "UNLIMIT",
+                  "time_type": "LENGTH",
+                  "subtask": [
+                    {
+                      "title": "Login API",
+                      "desc": "desc",
+                      "_id": "571c868e0d5708ec267e1210",
+                      "time_length": "UNLIMIT",
+                      "time_type": "LENGTH"
+                    },
+                    {
+                      "title": "Tasks API",
+                      "desc": "desc",
+                      "_id": "571c868e0d5708ec267e120f",
+                      "time_length": "UNLIMIT",
+                      "time_type": "LENGTH"
+                    }
+                  ],
+                  "type": 0
+                }
+              ]
+            }
+
+## Single Task [/api/tasks/{taskId}]
+### Update Task [PUT]
+
++ Parameters
+    + taskId: `571c868e0d5708ec267e120e` (string) - the task id
+
++ Request
+    + Headers
+    
+            Authorization: Bearer a4511c5b8f74d3a2f7f2739b495b95ad60a3006c
+    
++ Request (application/json)
+
+        {
+            "title": "PY first task",
+            "desc": "To get task RPG done. lalala",
+            "subtask": [
+                {
+                    "title": "Login API",
+                    "desc": "123"
+                }
+            ]
+        }
+
++ Response 200 (application/json)
+
+        {
+          "status": "success",
+          "data": {
+            "_id": "571c868e0d5708ec267e120e",
+            "title": "PY first task",
+            "desc": "To get task RPG done. 123123",
+            "creator": "5706615f5349604a208cd254",
+            "__v": 0,
+            "create_time": "2016-04-24T08:40:46.095Z",
+            "award": 0,
+            "check_type": 0,
+            "time_length": "UNLIMIT",
+            "time_type": "LENGTH",
+            "subtask": [
+              {
+                "title": "Login API",
+                "desc": "desc",
+                "_id": "571c868e0d5708ec267e1210",
+                "time_length": "UNLIMIT",
+                "time_type": "LENGTH"
+              },
+              {
+                "title": "Tasks API",
+                "desc": "desc",
+                "_id": "571c868e0d5708ec267e120f",
+                "time_length": "UNLIMIT",
+                "time_type": "LENGTH"
+              }
+            ],
+            "type": 0
+          }
+        }
+
+## User Tasks [/users/tasks]
+
+### Check a Task [POST]
+
++ Request (multipart/form-data, boundary=AaB03x)
+    + Headers
+        
+            Content-Length: $requestlen
+    
+    + Body
+            
+            --AaB03x
+            content-disposition: form-data; name="userfile"; filename="$filename"
+            Content-Type: $mimetype
+            Content-Transfer-Encoding: binary
+            
+            $binarydata
+            --AaB03x--
+            
 + Response 201 (application/json)
 
     + Headers
 
-            Location: /task/2
+            Location: /user/task/2
 
     + Body
 
@@ -158,7 +227,7 @@ yyyy-MM-ddTHH:mm:ssZ
                 "title": "PY first task",
                   "type": 0,
                   "desc": "To get task RPG done. 123123",
-                  "status": 0,
+                  "status": 1,
                   "award": 0,
                   "userId": "5706615f5349604a208cd254",
                   "_id": "570930507dd83921571457c8",
@@ -177,55 +246,3 @@ yyyy-MM-ddTHH:mm:ssZ
                     "name": "PY Chiu"
                   }
             }
-
-## Tasks Collection [/tasks/1]
-
-### Update Task [PUT]
-
-+ Request (application/json)
-
-        {
-            "title": "PY first task",
-            "desc": "To get task RPG done. lalala",
-            "subtask": [
-                {
-                    "title": "Login API"
-                },
-                {
-                    "title": "Tasks API"
-                }
-            ]
-        }
-
-+ Response 200 (application/json)
-
-        {
-          "_id": "57092fb47dd83921571457c5",
-          "title": "PY first task",
-          "type": 0,
-          "desc": "To get task RPG done. lalala",
-          "status": 0,
-          "award": 0,
-          "userId": "5706615f5349604a208cd254",
-          "__v": 0,
-          "subtask": [
-            {
-              "title": "Login API",
-              "_id": "570930f87dd83921571457cc"
-            },
-            {
-              "title": "Tasks API",
-              "_id": "570930f87dd83921571457cb"
-            }
-          ],
-          "creator": {
-            "id": "5706615f5349604a208cd254",
-            "name": "PY Chiu"
-          }
-        }
-        
-### Delete Task [DELETE]
-
-+ Request (application/json)
-
-+ Response 204 (application/json)
